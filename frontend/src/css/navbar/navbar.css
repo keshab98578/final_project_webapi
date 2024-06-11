@@ -1,0 +1,88 @@
+navbar.css
+
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+  }
+  
+  .menu {
+    flex: 1;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    justify-content: center; /* Center the navbar items */
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    margin-right: 20px;
+  }
+  
+  .nav-link {
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .nav-link:hover {
+    color: #ff0000; /* Change color on hover */
+  }
+  
+  .user-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-dropdown .dropdown-toggle {
+    background: none;
+    border: none;
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dropdown-item {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .login-section .btn {
+    margin-right: 10px;
+  }
+  
+  .cart-icon {
+    margin-left: 20px;
+    position: relative;
+  }
+  
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 20px;
+    padding: 3px 6px;
+    font-size: 14px;
+    border-radius: 50%;
+    background-color: #ff0000;
+    color: #ffffff;
+  }
+  
