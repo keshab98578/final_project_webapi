@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   createProductApi,
-  deleteProduct,
-  getAllProducts,
+  deleteProductApi,
+  getAllProductsApi,
 } from "../../../apis/Api";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
-
 
 const AdminDashboard = () => {
-  // 1. State for all fetched products
-  const [products, setProducts] = useState([]); // array
+  //1. State for all fetched products
+  const [products, setProducts] = useState([]); //array
 
-  // 2. Call API initially (Page Load) - Set all fetch products to state (1)
+  // 2. Call api initially(page load) - set all fetched products to state
   useEffect(() => {
-    getAllProducts()
+    getAllProductsApi()
       .then((res) => {
-        // response : res.data.products (All Products)
+        // response: res.data.products (All Products)
         setProducts(res.data.products);
       })
       .catch((error) => {
@@ -25,13 +24,14 @@ const AdminDashboard = () => {
   }, []);
   console.log(products);
 
-  // State for input fields
+  //  State for input fields
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [productDescription, setProductDescription] = useState("");
 
-  // State for image
+  // State for images
+
   const [productImage, setProductImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
@@ -39,32 +39,34 @@ const AdminDashboard = () => {
   const handleImage = (event) => {
     const file = event.target.files[0];
     setProductImage(file); // for backend
+
     setPreviewImage(URL.createObjectURL(file));
   };
 
   // handle submit
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // make a form data (txt, file)
+    // make a form data (text, files)
     const formData = new FormData();
+
     formData.append("productName", productName);
     formData.append("productPrice", productPrice);
     formData.append("productCategory", productCategory);
     formData.append("productDescription", productDescription);
     formData.append("productImage", productImage);
 
-    // make a api call
+    //Make a api call
     createProductApi(formData)
       .then((res) => {
-        // For successful api
+        //for successful api
         if (res.status === 201) {
           toast.success(res.data.message);
         }
       })
       .catch((error) => {
-        // for error status code
-
+        //for error status code
         if (error.response) {
           if (error.response.status === 400) {
             toast.warning(error.response.data.message);
@@ -74,21 +76,24 @@ const AdminDashboard = () => {
             toast.error("Something went wrong!");
           }
         } else {
-          toast.error("Something went wrong!");
+          toast.error("Something went wrong! ");
         }
       });
   };
 
-  // handle delete product
+  //handle delete product
   const handleDelete = (id) => {
-    const confirmDialog = window.confirm("Are you sure want to delete?");
+    const confirmDialog = window.confirm(
+      "Are you sure want to delete this product ?"
+    );
     if (confirmDialog) {
-      // calling api
-      deleteProduct(id)
+      // calling API
+      deleteProductApi(id)
         .then((res) => {
           if (res.status === 201) {
             toast.success(res.data.message);
-            // reload
+
+            //reload
             window.location.reload();
           }
         })
@@ -105,8 +110,6 @@ const AdminDashboard = () => {
       <div className="container mt-3">
         <div className="d-flex justify-content-between">
           <h3>Admin Dashboard</h3>
-
-          
 
           <button
             type="button"
@@ -128,7 +131,7 @@ const AdminDashboard = () => {
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    Create a new product!
+                    Create a new product
                   </h1>
                   <button
                     type="button"
@@ -139,7 +142,7 @@ const AdminDashboard = () => {
                 </div>
                 <div class="modal-body">
                   <form action="">
-                    <label>Product Name</label>
+                    <label> Product Name</label>
                     <input
                       onChange={(e) => setProductName(e.target.value)}
                       type="text"
@@ -147,15 +150,16 @@ const AdminDashboard = () => {
                       placeholder="Enter product name"
                     />
 
-                    <label className="mt-2">Product Price</label>
+                    <label className="mt-2"> Product Price</label>
                     <input
                       onChange={(e) => setProductPrice(e.target.value)}
                       type="number"
                       className="form-control"
-                      placeholder="Enter product price"
+                      placeholder="Enter Product Price"
                     />
 
-                    <label className="mt-2">Choose category</label>
+                    <label className="mt-2">Choose the category</label>
+
                     <select
                       onChange={(e) => setProductCategory(e.target.value)}
                       className="form-control"
@@ -166,21 +170,20 @@ const AdminDashboard = () => {
                       <option value="furniture">Furniture</option>
                     </select>
 
-                    <label className="mt-2">Enter description</label>
+                    <label className="mt-2"> Enter Description</label>
                     <textarea
                       onChange={(e) => setProductDescription(e.target.value)}
                       className="form-control"
                     ></textarea>
 
-                    <label className="mt-2">Choose product Image</label>
+                    <label className="mt-2">Choose Image</label>
                     <input
                       onChange={handleImage}
                       type="file"
                       className="form-control"
                     />
 
-                    {/* Preview Image */}
-
+                    {/* Preview image */}
                     {previewImage && (
                       <img
                         src={previewImage}
@@ -210,21 +213,19 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-
-       
-
-        <table className="table mt-2">
-          <thead className="table-dark">
+        <table class="table mt-2">
+          <thead class="table-dark">
+            {" "}
             <tr>
-              <th>Product Image</th>
-              <th>Product Name</th>
-              <th>Product Price</th>
-              <th>Category</th>
-              <th>Descripton</th>
-              <th>Actions</th>
+              <th scope="col">Product Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Product Price</th>
+              <th scope="col">Category</th>
+              <th scope="col">Descriptions</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
-       
+
           <tbody>
             {products.map((singleProduct) => (
               <tr>
@@ -233,7 +234,7 @@ const AdminDashboard = () => {
                     width={"40px"}
                     height={"40px"}
                     src={`http://localhost:3000/products/${singleProduct.productImage}`}
-                    alt=""
+                    alt="/"
                   />
                 </td>
                 <td>{singleProduct.productName}</td>
@@ -246,12 +247,14 @@ const AdminDashboard = () => {
                     to={`/admin/update/${singleProduct._id}`}
                     className="btn btn-primary"
                   >
+                    {" "}
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(singleProduct._id)}
                     className="btn btn-danger ms-2"
                   >
+                    {" "}
                     Delete
                   </button>
                 </td>
@@ -267,8 +270,8 @@ const AdminDashboard = () => {
 export default AdminDashboard;
 
 // Edit product
-// Admin Dashboard (Table) pro1
-// Make a route (Admin Edit product)
-// Fill all the related information only
-// Edit garna milnu paryo (Text, file)
-// Make a backend to update product
+// Admin Dashboard (Table)
+// Make a route (Admin edit product)
+// Fill all the releated innformation only
+// Edit garna milnu paryo (Text, File)
+//Make a backend to update product

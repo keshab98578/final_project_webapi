@@ -112,8 +112,8 @@ const loginUser =  async (req,res) => {
 
         // token (Generate - user Data + KEY)
         const token = await jwt.sign(
-            {id : user._id},
-            process.env.JWT_SECRET
+            {id : user._id, isAdmin : user.isAdmin},
+            process.env.JWT_SECRET , 
         )
 
         // response (token, user data)

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleProduct, updateProduct } from "../../../apis/Api";
 import { toast } from "react-toastify";
+import { getSingleProductApi, updateProductApi } from "../../../apis/Api";
 
 const UpdateProduct = () => {
-  // get id from url
+  //get id from url
   const { id } = useParams();
 
-  // get product information (Backend)
+  //get product information (Backend)
   useEffect(() => {
-    getSingleProduct(id)
+    getSingleProductApi(id)
       .then((res) => {
         console.log(res.data);
 
-        // res -> data (message, success, product) -> (pn,pp, pc)
-        // res.data.product.productName
+        //res -> data (message, success, product->(pn,pp,pc))
+        //res.data.poduct.productName
         setProductName(res.data.product.productName);
         setProductPrice(res.data.product.productPrice);
         setProductCategory(res.data.product.productCategory);
@@ -27,14 +27,15 @@ const UpdateProduct = () => {
   }, []);
 
   // fill all the info in each fields
+  //
 
-  // make a use state
+  //Make a useState
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [productDescription, setProductDescription] = useState("");
 
-  // state for image
+  // State for image
   const [productNewImage, setProductNewImage] = useState(null);
   const [previewNewImage, setPreviewNewImage] = useState(null);
   const [oldImage, setOldImage] = useState("");
@@ -46,23 +47,23 @@ const UpdateProduct = () => {
     setPreviewNewImage(URL.createObjectURL(file));
   };
 
-  // update product
-  const handleUpdate = (e) => {
+  //update product
+  const handleupdate = (e) => {
     e.preventDefault();
 
-    // make a form data
+    //make a form data
     const formData = new FormData();
     formData.append("productName", productName);
     formData.append("productPrice", productPrice);
     formData.append("productCategory", productCategory);
     formData.append("productDescription", productDescription);
 
-    if (productNewImage) {
+    if (previewNewImage) {
       formData.append("productImage", productNewImage);
     }
 
-    // Api call
-    updateProduct(id, formData)
+    //Api call
+    updateProductApi(id, formData)
       .then((res) => {
         if (res.status === 201) {
           toast.success(res.data.message);
@@ -70,6 +71,9 @@ const UpdateProduct = () => {
       })
       .catch((error) => {
         if (error.response.status === 500) {
+          toast.error(error.response.data.message);
+        } 
+        else if (error.response.status === 400) {
           toast.error(error.response.data.message);
         }
       });
@@ -79,10 +83,8 @@ const UpdateProduct = () => {
     <>
       <div className="container mt-3">
         <h2>
-          Update product for{" "}
-          <span className="text-danger">'{productName}'</span>
+          Update Product For <span className="text-danger">{productName}</span>
         </h2>
-
         <div className="d-flex gap-3">
           <form action="">
             <label htmlFor="">Product Name</label>
@@ -132,25 +134,26 @@ const UpdateProduct = () => {
             />
 
             <button
-              onClick={handleUpdate}
+              onClick={handleupdate}
               className="btn btn-danger w-100 mt-2"
             >
               Update Product
             </button>
           </form>
+
           <div className="image section">
             <h6>Previewing old image</h6>
             <img
               height={"150px"}
               width={"300px"}
               className="image-fluid rounded-4 object-fit-cover"
-              src={`http://localhost:5000/products/${oldImage}`}
+              src={`http://localhost:5500/products/${oldImage}`}
               alt=""
             />
 
             {previewNewImage && (
               <>
-                <h6 className="mt-3">New image</h6>
+                <h6 className="mt-3"> New image</h6>
                 <img
                   height={"150px"}
                   width={"300px"}

@@ -17,6 +17,7 @@ const Navbar = () => {
         localStorage.removeItem('user');
         // Force a re-render to update the navbar
         window.location.reload();
+        // window.location.href='/login'
     };
 
     // Get user data from local storage
