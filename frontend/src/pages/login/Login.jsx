@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import Navbar from "../../components/Navbar";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/Api";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  // make a useState for each input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Make a error state
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  // validation
   const validation = () => {
     let isValid = true;
 
@@ -28,36 +24,26 @@ const Login = () => {
     return isValid;
   };
 
-  // Make a function to handle the form submission
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // validation
     if (!validation()) {
       return;
     }
 
-    //  make a json object
     const data = {
       email: email,
       password: password,
     };
 
-    // make a api request (Task)
     loginUserApi(data).then((res) => {
       if (res.data.success === false) {
         toast.error(res.data.message);
       } else {
         toast.success(res.data.message);
 
-        // success-bool, message-text, token-text, user data - json object
-        // Setting token and user data in local storage
         localStorage.setItem("token", res.data.token);
-
-        // setting user data
         const convertedData = JSON.stringify(res.data.userData);
-
-        // local storage set
         localStorage.setItem("user", convertedData);
       }
     });
@@ -66,35 +52,44 @@ const Login = () => {
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
-        {" "}
-        {/* Centering the form */}
         <div className="col-md-6">
-          <h1>Login to your Account!</h1>
-          <form>
-            <label>Email Address : {email}</label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              type="text"
-              className="form-control"
-              placeholder="Enter your email address"
-            />
-            {emailError && <p className="text-danger">{emailError}</p>}
-            <label className="mt-2">Password</label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              className="form-control"
-              placeholder="Enter your password"
-            />
-            {passwordError && <p className="text-danger">{passwordError}</p>}
-            <button onClick={handleLogin} className="btn btn-danger w-100 mt-3">
-              Login
-            </button>
-          </form>
-          <div className="mt-3">
-            <label>Don't have an account?</label>
-            {/* Add your signup button here */}
-            <button className="btn btn-danger w-100 mt-3">Sign Up</button>
+          <div className="card shadow-sm p-4">
+            <h1 className="text-center mb-4">Login to your Account</h1>
+            <form>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  id="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                />
+                {emailError && <p className="text-danger">{emailError}</p>}
+              </div>
+              <div className="form-group mt-3">
+                <label htmlFor="password">Password</label>
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Enter your password"
+                  value={password}
+                />
+                {passwordError && <p className="text-danger">{passwordError}</p>}
+              </div>
+              <button onClick={handleLogin} className="btn btn-danger w-100 mt-4">
+                Login
+              </button>
+            </form>
+            <div className="mt-3 text-center">
+              <label>Don't have an account?</label>
+              <Link to="/register" className="btn btn-outline-danger w-100 mt-2">
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
       </div>

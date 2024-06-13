@@ -1,21 +1,21 @@
 /* Products.css */
 
-/* Products.css */
-
 .card {
-    border-radius: 15px;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .card-img-top {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover .card-img-top {
-    transform: scale(0.88);
-  }
-  
+  border-radius: 15px;
+  transition: transform 0.3s ease-in-out;
+  width: 100%; /* Ensure cards take full width of their container */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  transition: transform 0.3s ease-in-out;
+  max-height: 200px; /* Example fixed height for images */
+  object-fit: cover; /* Ensure images cover the defined dimensions */
+}
+
+.card:hover .card-img-top {
+  transform: scale(0.8999);
+}

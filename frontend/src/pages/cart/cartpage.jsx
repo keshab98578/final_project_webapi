@@ -8,6 +8,7 @@ const CartPage = () => {
 
   const calculateTotalPrice = () => {
     return cart.reduce((total, item) => {
+      if (!item) return total; // Skip null/undefined items
       return total + (item.productPrice * item.quantity * (item.size === 'full' ? 2 : 1));
     }, 0);
   };
@@ -24,32 +25,39 @@ const CartPage = () => {
       <h2 className="mb-4">Your Cart</h2>
       <div className="row">
         <div className="col-lg-8">
-          {cart.map((item, index) => (
-            <div key={item._id} className="row mb-3 border-bottom pb-3">
-              <div className="col-md-2">
-                <img src={item.image || 'default-image-url.jpg'} alt={item.productName} className="img-fluid" />
-              </div>
-              <div className="col-md-7">
-                <h5>{item.productName}</h5>
-                <p>{item.productDescription || 'Description not available'}</p>
-              </div>
-              <div className="col-md-3">
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <span className="fw-bold">Quantity:</span> {item.quantity}
+          {cart.map((item) => {
+            if (!item) return null; // Skip rendering null/undefined items
+            return (
+              <div key={item._id} className="row mb-3 border-bottom pb-3">
+                <div className="col-md-2">
+                  <img
+                    src={`http://localhost:3000/products/${item.productImage || 'default.jpg'}`} // Provide fallback value for productImage
+                    alt={item.productName || 'Product Image'} // Provide fallback value for productName
+                    className="img-fluid"
+                  />
+                </div>
+                <div className="col-md-7">
+                  <h5>{item.productName || 'Unknown Product'}</h5> {/* Provide fallback value for productName */}
+                  <p>{item.productDescription || 'Description not available'}</p>
+                </div>
+                <div className="col-md-3">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <span className="fw-bold">Quantity:</span> {item.quantity}
+                    </div>
+                    <div>
+                      <span className="fw-bold">Size:</span> {item.size}
+                    </div>
                   </div>
-                  <div>
-                    <span className="fw-bold">Size:</span> {item.size}
+                  <div className="text-end mt-3">
+                    <button className="btn btn-sm btn-danger" onClick={() => handleRemoveFromCart(item._id)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
                   </div>
                 </div>
-                <div className="text-end mt-3">
-                  <button className="btn btn-sm btn-danger" onClick={() => handleRemoveFromCart(item._id)}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className="col-lg-4">
           <div className="card">

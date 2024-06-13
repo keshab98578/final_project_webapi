@@ -15,6 +15,7 @@ import Cartpage from "./pages/cart/cartpage";
 import AdminRoutes from "./protected_routes/AdminRoutes";
 import UserRoute from "./protected_routes/UserRoute";
 import Profile from "./pages/profile/Profile";
+import Myorders from "./pages/myorders/Myorders";
 
 // Task create for login and register
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mycart" element={<Cartpage />} />
+          <Route path="/myorders" element={< Myorders />} />
 
           {/* Admin routes */}
           <Route element={<AdminRoutes />}>

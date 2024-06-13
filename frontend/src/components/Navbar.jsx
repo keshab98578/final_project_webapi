@@ -47,9 +47,10 @@ const Navbar = () => {
                             <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                Welcome  {user.firstName}
                             </button>
+
                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                 <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
-                                <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
+                                <li><Link className="dropdown-item" to="/myorders">MyOrders</Link></li>
                                 <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                             </ul>
                         </div>
